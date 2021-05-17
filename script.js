@@ -1,5 +1,10 @@
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
+function generatepwd() {
+if(window.confirm("Proceed to Instructions by clicking OK"))
+{ document.querySelector("#password").value = "Instructions: 1) Set desired length of password 2) pick comp"}
+else{window.alert("Okay thanks for considering!")}
+};
 
 // Globals and helper functions
 // Four sets of characters for password
@@ -16,24 +21,27 @@ var passwordcom = {
   numb: false,
   spechar: true,
   length:8,
+  good:false,
 };
 function passwdcomp(){
     passwordcom.lowerc = document.getElementById("lwcase").checked;
     passwordcom.upperc = document.getElementById("upcase").checked;
     passwordcom.numb = document.getElementById("number").checked;
     passwordcom.spechar = document.getElementById("spchar").checked;
-    passwordcom.length = document.getElementById("passwdlength").value;
-    console.log(passwordcom) };
+    passwordcom.length = parseInt(document.getElementById("passwdlength").value);
+    passwordcom.good=window.confirm("Are your selections?  " + "lowercase " + passwordcom.lowerc +
+    " uppercase " + passwordcom.upperc + " number " +  passwordcom.numb + 
+     "specialchar " + passwordcom.spechar + "length of password " + passwordcom.length)
+    // passwordcom.good=cfrm();
+    console.log("good ", passwordcom);
+    errorchk();
+    };
 
-/* var pwd =function(x,y,z,t,s){
-  passwordinfo = {
-    lowerc : x,
-    upperc : y,
-    spechar : z,
-    numb : t, 
-    lenght : s};
-  }  */
-
+    var errorchk = function(){
+      if(passwordcom.length>128 || passwordcom.lenth<8 || isNaN(passwordcom.lenth))
+   {window.alert("Error,Make sure to type in number between 8 and 128")}
+    };
+  
 
 // Write password to the #password input
 
@@ -47,7 +55,6 @@ var usersetfun = function(){
   return(userset)
 }
 
-// pwd(1,1,1,1,10);
 console.log(passwordcom)
 var Userset= usersetfun();
 console.log(Userset);
