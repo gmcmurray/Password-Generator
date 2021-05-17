@@ -40,14 +40,14 @@ var passwordresult = function(userset){
   return(passwd)
 };
 
-var ans=passwordresult(Userset);
-console.log(ans)
+var password=passwordresult(Userset);
+console.log(password);
+console.log(typeof(password));
 
 function writePassword() {
   var passwordText = document.querySelector("#password");
-
   passwordText.value = password;
-
 }
+writePassword();
 // Add event listener to generate button
 generateBtn.addEventListener("click",writePassword());
