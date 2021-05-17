@@ -23,22 +23,29 @@
             placeholder="Your Secure Password"
             aria-label="Generated Password"
           ></textarea>
+          <form class="form-inline" >
+            <label for="passwdlength">Length of password (8 to 128):</label>
+            <input type="number" id="passwdlength" placeholder=8 >
+          </form>
           <div class="chckboxarea">
               <div class="outline">
-                <input type="checkbox" id="lwcase" onclick="passwdcomp()">
+                <input type="checkbox" id="lwcase" >
                 <label  for="lwcase">lowercase: abc...z</label>
                 </div>
                 <div class="outline">
-                    <input type="checkbox" id="upcase" onclick="passwdcomp()">
+                    <input type="checkbox" id="upcase" >
                     <label for="upcase">uppercase: ABC...Z</label>
                 </div>
                 <div class="outline">
-                    <input type="checkbox" id="number" onclick="passwdcomp()">
+                    <input type="checkbox" id="number" >
                     <label for="number">number: 01...9</label>
                 </div>
                 <div class="outline">
-                    <input type="checkbox" id="spchar" onclick="passwdcomp()">
+                    <input type="checkbox" id="spchar" >
                     <label for="spchar">spchar: #$%...&</label>
+                </div>
+                <div>
+                    <button class="charbut" onclick="passwdcomp()">Submit</button>
                 </div>
                 
             </div>

@@ -15,12 +15,14 @@ var passwordcom = {
   upperc: true,
   numb: false,
   spechar: true,
+  length:8,
 };
 function passwdcomp(){
     passwordcom.lowerc = document.getElementById("lwcase").checked;
     passwordcom.upperc = document.getElementById("upcase").checked;
     passwordcom.numb = document.getElementById("number").checked;
     passwordcom.spechar = document.getElementById("spchar").checked;
+    passwordcom.length = document.getElementById("passwdlength").value;
     console.log(passwordcom) };
 
 /* var pwd =function(x,y,z,t,s){
@@ -52,7 +54,7 @@ console.log(Userset);
 
 var passwordresult = function(userset){
   var passwd="";
-  for (var mm=0; mm<passwordcom.lenght ; mm++){
+  for (var mm=0; mm<passwordcom.length ; mm++){
     passwd+=userset[Math.floor(Math.random() * userset.length)]
   }
   return(passwd)
