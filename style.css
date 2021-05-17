@@ -71,7 +71,18 @@ header {
   display: block;
   clear: both;
 }
+.chckboxarea{
+    display: flex;
+    justify-content: space-between;
+    margin: 0 100px 0 0;
+}
 
+.chckboxarea .outline {
+    border:2px;
+    border-style: solid;
+    border-radius: 10%;
+    margin:5px;
+}
 .btn {
   border: none;
   background-color: hsl(360, 91%, 36%);

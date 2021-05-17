@@ -8,33 +8,51 @@ var uppercase=lowercase.toUpperCase();
 var numerics="0123456789"
 var specialchars="~!(-_][.>;<:@%&*+="
 // userinfo collected in passwordinfo Object.
-var pwd =function(x,y,z,t,s){passwordinfo = {
+
+// Function to query user for password info
+var passwordcom = {
+  lowerc: false,
+  upperc: true,
+  numb: false,
+  spechar: true,
+};
+function passwdcomp(){
+    passwordcom.lowerc = document.getElementById("lwcase").checked;
+    passwordcom.upperc = document.getElementById("upcase").checked;
+    passwordcom.numb = document.getElementById("number").checked;
+    passwordcom.spechar = document.getElementById("spchar").checked;
+    console.log(passwordcom) };
+
+/* var pwd =function(x,y,z,t,s){
+  passwordinfo = {
     lowerc : x,
     upperc : y,
     spechar : z,
     numb : t, 
-    lenght : s};}
+    lenght : s};
+  }  */
 
 
 // Write password to the #password input
 
 var usersetfun = function(){
+  document.querySelector("#generate");
   userset="";
-  if(passwordinfo.upperc>0){userset=userset+uppercase}
-  if(passwordinfo.lowerc>0){userset=userset+lowercase}
-  if(passwordinfo.numb>0){userset=userset+numerics}
-  if(passwordinfo.spechar>0){userset=userset+specialchars}
+  if(passwordcom.upperc){userset=userset+uppercase}
+  if(passwordcom.lowerc){userset=userset+lowercase}
+  if(passwordcom.numb){userset=userset+numerics}
+  if(passwordcom.spechar){userset=userset+specialchars}
   return(userset)
 }
 
-pwd(1,1,1,1,10);
-console.log(passwordinfo)
+// pwd(1,1,1,1,10);
+console.log(passwordcom)
 var Userset= usersetfun();
 console.log(Userset);
 
 var passwordresult = function(userset){
   var passwd="";
-  for (var mm=0; mm<passwordinfo.lenght ; mm++){
+  for (var mm=0; mm<passwordcom.lenght ; mm++){
     passwd+=userset[Math.floor(Math.random() * userset.length)]
   }
   return(passwd)

@@ -23,6 +23,25 @@
             placeholder="Your Secure Password"
             aria-label="Generated Password"
           ></textarea>
+          <div class="chckboxarea">
+              <div class="outline">
+                <input type="checkbox" id="lwcase" onclick="passwdcomp()">
+                <label  for="lwcase">lowercase: abc...z</label>
+                </div>
+                <div class="outline">
+                    <input type="checkbox" id="upcase" onclick="passwdcomp()">
+                    <label for="upcase">uppercase: ABC...Z</label>
+                </div>
+                <div class="outline">
+                    <input type="checkbox" id="number" onclick="passwdcomp()">
+                    <label for="number">number: 01...9</label>
+                </div>
+                <div class="outline">
+                    <input type="checkbox" id="spchar" onclick="passwdcomp()">
+                    <label for="spchar">spchar: #$%...&</label>
+                </div>
+                
+            </div>
         </div>
         <div class="card-footer">
           <button id="generate" class="btn">Generate Password</button>
