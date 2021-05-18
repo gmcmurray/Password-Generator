@@ -1,18 +1,18 @@
 // Globals and helper functions
 // Four sets of characters for password
-var lowercase = "qwertyuiopasdfghjklzxcvbnm";
-var uppercase=lowercase.toUpperCase();
-var numerics="0123456789";
-var specialchars="~!(-_][.>;<:@%&*+=";
+var Lowcase = "qwertyuiopasdfghjklzxcvbnm";
+var Uppcase=Lowcase.toUpperCase();
+var Numerics="0123456789";
+var Specialchars="~!(-_][.>;<:@%&*+=";
 var password="";
-var buttons=["lwcase","upcase","number","spchar"]
+var chkbx=["lwcase","upcase","number","spchar"]
 
 // password object with five user inputs and one good password checker
 var passwordcom = {
-  lowerc: false,
-  upperc: false,
-  numb: false,
-  spechar: false,
+  lwcase: false,
+  upcase: false,
+  number: false,
+  spchar: false,
   length:8,
   good:false,
 };
@@ -24,37 +24,40 @@ var generateBtn = document.querySelector("#generate");
 
 var errorchk = function(){
   if(passwordcom.length>128 || passwordcom.length<8 || isNaN(passwordcom.length)||(
-  !passwordcom.lowerc && !passwordcom.upperc && !passwordcom.numb && !passwordcom.spechar))
+  !passwordcom.lwcase && !passwordcom.upcase && !passwordcom.number && !passwordcom.spchar))
   { 
-    window.alert("Error,Make sure to type in number between 8 and 128, and have at least one char group selection, Press Generate Password again");
-    clearinputs();}
-  return;
+    window.alert("ERROR : Make sure to type in number between 8 and 128, and have at least one char group selection, Press Generate Password again");
+    clearinputs();
+  return(false)}
+  else{
+    return(true);
+  }
 };
-
+// Clears inputs from form and checkboxes are unchecked
 var clearinputs = function(){
   for (var x in passwordcom) {
     passwordcom[x]="false";
   };
-  for (var x=0; x < buttons.length;x++){
-    document.getElementById(buttons[x]).checked=false;
+  for (var x=0; x < chkbx.length;x++){
+    document.getElementById(chkbx[x]).checked=false;
   }
   document.getElementById("passwdlength").value="";
   return;
 };
 // Character set generator (userset) based on user inputs - passwordcom
 function usersetfun(){
-  document.querySelector("#generate");
+  // document.querySelector("#generate");
   var userset="";
-  if(passwordcom.upperc){userset=userset+uppercase};
-  if(passwordcom.lowerc){userset=userset+lowercase};
-  if(passwordcom.numb){userset=userset+numerics};
-  if(passwordcom.spechar){userset=userset+specialchars};
+  if(passwordcom.upcase){userset=userset+Uppcase};
+  if(passwordcom.lwcase){userset=userset+Lowcase};
+  if(passwordcom.number){userset=userset+Numerics};
+  if(passwordcom.spchar){userset=userset+Specialchars};
   return(userset);
 };
 
 // Random selector of characters from userset 
 
-var passwordresult = function(userset){
+var passwordgen = function(userset){
   var passwd="";
   for (var mm=0; mm<passwordcom.length ; mm++){
     passwd+=userset[Math.floor(Math.random() * userset.length)]
@@ -67,24 +70,28 @@ function writePassword() {
   passwordText.value = password;
   return;
 }
-writePassword();
+// writePassword();
 // Add event listener to generate button
 generateBtn.addEventListener("click",writePassword());
 
 function passwdcomp(){
-    passwordcom.lowerc = document.getElementById("lwcase").checked;
-    passwordcom.upperc = document.getElementById("upcase").checked;
-    passwordcom.numb = document.getElementById("number").checked;
-    passwordcom.spechar = document.getElementById("spchar").checked;
+// Collect User selections on password composition
+console.log("Made it to passwdcomp");
+  for (var x=0; x<chkbx.length;x++){
+    passwordcom[chkbx[x]] = document.getElementById(chkbx[x]).checked;
+  }
     passwordcom.length = parseInt(document.getElementById("passwdlength").value);
-    passwordcom.good = confirm("Are your selections?  " + "lowercase " + passwordcom.lowerc + "; uppercase " + passwordcom.upperc + "; number " +  passwordcom.numb + "; specialchar " + passwordcom.spechar + "; length of password " + passwordcom.length);
+    console.log(passwordcom);
+    passwordcom.good = confirm("Are your selections?  " + "lowercase " + passwordcom.lwcase + 
+    "; uppercase " + passwordcom.upcase + "; number " +  passwordcom.number + "; specialchar "
+     + passwordcom.spchar + "; length of password " + passwordcom.length);
     // passwordcom.good=cfrm();
     console.log("good ", passwordcom);
     passwordcom.good=errorchk();
     console.log(passwordcom);
-    if(3){
+    if(passwordcom.good){
       var Userset = usersetfun();
-      password=passwordresult(Userset);
+      password=passwordgen(Userset);
       writePassword();
       return(password);
     }
@@ -94,12 +101,10 @@ function passwdcomp(){
 
 // Main function enabled by Generate Password button
     function generatepwd() {
-      if(window.confirm("Proceed to Instructions by clicking OK"))
-      { var chngme = document.getElementById("infoarea");
+       var chngme = document.getElementById("infoarea");
        chngme.setAttribute("style","display: flex")
-       document.querySelector("#password").value = "Instructions: 1) Set desired length of password 2) pick comp";
+       document.querySelector("#password").textContent = "Instructions: 1) Set desired length of password 2) pick comp";
        var chngme2 = document.getElementById("generate");
-       chngme2.setAttribute("style", "display:none")
-      }
-      else{window.alert("Okay thanks for considering!")}
-      };
+       chngme2.setAttribute("style", "display:none");
+       return;
+       };
