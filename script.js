@@ -35,16 +35,9 @@ var clearinputs = function(){
   for (var x in passwordcom) {
     passwordcom[x]="false";
   };
-  // var inputs = document.getElementsByClassName("ckboxes");
-  // console.log("inputs" , inputs);
-  // for (var i = 0; i < inputs.length; i++) {
-          // inputs[i].checked = false;};
-  // document.getElementsByClassName("ckboxes").checked=false;
-  document.getElementById("lwcase").checked=false;
   for (var x=0; x < buttons.length;x++){
     document.getElementById(buttons[x]).checked=false;
   }
-  console.log("lwcase",document.getElementById("lwcase").checked)
   document.getElementById("passwdlength").value="";
   return;
 };
@@ -102,9 +95,11 @@ function passwdcomp(){
 // Main function enabled by Generate Password button
     function generatepwd() {
       if(window.confirm("Proceed to Instructions by clicking OK"))
-      { document.querySelector("#password").value = "Instructions: 1) Set desired length of password 2) pick comp";
-        //document.querySelectorAll("#area").style.display="flex"  ;
-      // document.getElementById("#infoarea").style.display="display";
+      { var chngme = document.getElementById("infoarea");
+       chngme.setAttribute("style","display: flex")
+       document.querySelector("#password").value = "Instructions: 1) Set desired length of password 2) pick comp";
+       var chngme2 = document.getElementById("generate");
+       chngme2.setAttribute("style", "display:none")
       }
       else{window.alert("Okay thanks for considering!")}
       };
