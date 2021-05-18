@@ -3,7 +3,9 @@
 *::after {
   box-sizing: border-box;
 }
-
+:root{
+    --hideit: hidden;
+}
 html,
 body,
 .wrapper {
@@ -71,12 +73,18 @@ header {
   display: block;
   clear: both;
 }
+
+#infoarea{
+    display:flex;
+    flex-direction: column;
+}  
 .chckboxarea{
-    display: flex;
     justify-content: space-between;
     margin: 0 100px 0 0;
 }
-
+.chboxes{
+    border: solid;
+}
 .chckboxarea .outline {
     border:2px;
     border-style: solid;
