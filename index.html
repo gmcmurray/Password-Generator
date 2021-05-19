@@ -25,10 +25,13 @@
           ></textarea>
         </div>
         <div id="infoarea" >
+            <h4 style="margin-bottom:0">1) Password Length:</h4>
             <form class="form-inline" >
                 <label for="passwdlength">Length of password (type in number between 8 and 128):</label>
                 <input type="number" id="passwdlength" >
             </form>
+            <h4 style="margin-bottom:0;margin-top:10px;">2) Password Composition:</h4>
+            <p style="margin:0">(Select between 1 and 4 categories. Must select at least one.)</p>
             <div class="chckboxarea">
                 <div class="ckboxes">
                     <input type="checkbox" id="lwcase" >
@@ -46,16 +49,24 @@
                         <input type="checkbox" id="spchar" >
                         <label for="spchar">spchar: #$%...&</label>
                     </div>
-                    <div>
-                        <button id="charbut" onclick="passwdcomp()">Submit</button>
-                        <label for="charbut">Press Submit when Complete</label>
+                    <br>
+                    <div id="flexcol"> 
+                        <div>
+                            <button style="background-color: yellow" id="reset" onclick="clearinputs()">Reset</button>
+                            <label for="reset">Reset Inputs</label>
+                        </div>
+                        <div>
+                            <button style="background-color: green;color:white;" id="charbut" onclick="passwdcomp()">Submit</button>
+                            <label style="text-decoration: underline; font-weight: bold; "; id="charbut">3) Press Submit when Complete</label>
+                        </div>
                     </div>
                 </div>  
             </div>
         <div class="card-footer">
-          <button id="generate" class="btn" onclick="generatepwd()">Generate Password </button>
+          <button id="generate" class="btn">Generate Password </button>
         </div>
-      </div>
+
+    </div>
     </div>
     <script src="script.js"></script>
   </body>

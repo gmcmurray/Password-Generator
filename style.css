@@ -1,4 +1,4 @@
-*,
+inl*,
 *::before,
 *::after {
   box-sizing: border-box;
@@ -91,6 +91,11 @@ header {
     border-radius: 10%;
     margin:5px;
 }
+#flexcol {
+ display:flex;
+ justify-content: space-between;
+}
+h4{text-decoration: underline;}
 .btn {
   border: none;
   background-color: hsl(360, 91%, 36%);
