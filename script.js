@@ -6,14 +6,20 @@ var Numerics="0123456789";
 var Specialchars="~!(-_][.>;<:@%&*+=";
 var password="";
 var chkbx=["lwcase","upcase","number","spchar"]
-
-// password object with five user inputs and one good password checker
+var setform;
+var resetBtn = document.querySelector("#reset") ;
+var submitBtn = document.querySelector("#charbut");
+var generateBtn = document.querySelector("#generate");
+var infoarea = document.getElementById("infoarea");
+var genbutton = document.getElementById("generate");
+  
+  // password object with five user inputs and one good password checker
 var passwordcom = {
   lwcase: false,
   upcase: false,
   number: false,
   spchar: false,
-  length:8,
+  length: 8,
   good: false,
   errorc: "",
 };
@@ -48,10 +54,10 @@ function clearinputs (){
 function usersetfun(){
   // Character set generator (userset) based on user inputs - passwordcom
   var userset="";
-  if(passwordcom.upcase){userset=userset+Uppcase};
-  if(passwordcom.lwcase){userset=userset+Lowcase};
-  if(passwordcom.number){userset=userset+Numerics};
-  if(passwordcom.spchar){userset=userset+Specialchars};
+  if(passwordcom.upcase===true){userset=userset+Uppcase};
+  if(passwordcom.lwcase===true){userset=userset+Lowcase};
+  if(passwordcom.number===true){userset=userset+Numerics};
+  if(passwordcom.spchar===true){userset=userset+Specialchars};
   return(userset);
 };
 
@@ -64,19 +70,20 @@ function passwordgen(userset){
   return(passwd)
 };
 
-var setform;
+
 function revealhideForm(setform){
   // Function to reveal (setform =1) or hide (x=0) Form - Button is inverse displayed
-  var chngme = document.getElementById("infoarea");
-  var chngme2 = document.getElementById("generate");
+  console.log("madeit reveal hide" , infoarea);
   if(setform===1){
-    chngme.setAttribute("style","display: flex")
-    writeInstructions();
-    chngme2.setAttribute("style", "display:none");
+      console.log("reset form =1");
+      infoarea.setAttribute("style","display: flex");
+      writeInstructions();
+      genbutton.setAttribute("style", "display: none");
   }
-  else {
-    chngme.setAttribute("style","display: none")
-    chngme2.setAttribute("style", "display:inline-box");
+  else if(setform ===0){
+    generateBtn.addEventListener("click", passwdcomp);
+    infoarea.setAttribute("style","display: none")
+    genbutton.setAttribute("style", "display:inline-box");
   };
   return;
 };
@@ -90,7 +97,7 @@ function writeInstructions(){
 
 function writePassword() {
   // Write password to textbox, hide Form, bring back Gen btn
-  revealhideForm(0);
+  // revealhideForm(0);
   var passwordText = document.querySelector("#password");
   passwordText.value = password;
   return;
@@ -116,16 +123,16 @@ function confirmpwd(){
     console.log("one"); 
     window.alert("Non legal password");
     return(false);  };
-  var passl = false;
+  var passx = false;
   var compass = false;
-  var errorcode;
   passx = window.confirm("You have chosen password length of  " +  passwordcom["length"]);
   console.log("passx ",passx)
+  console.log("confmsg" ,passwordcom)
   //  Compose message for confirm password composition
   var confmsg = " ";
-  for (var i=0; i < chkbx.length; i++){
-    if(passwordcom[chkbx[i]]){
-      confmsg +=  chkbx[i]+ " - " ;
+  for (var x=0; x < chkbx.length; x++){
+    if(document.getElementById(chkbx[x]).checked){
+      confmsg +=  chkbx[x]+ " - " ;
     };
   };
   compass = window.confirm("You have selected password composition of: "+ confmsg);
@@ -142,31 +149,34 @@ function confirmpwd(){
 };
 
 function passwdcomp(){
-// Collect User selections on password composition
-// Collect checkboxes
+// Main Function : Reveal form, collect inputs, generate password
   for (var x=0; x<chkbx.length;x++){
-    passwordcom[chkbx[x]] = document.getElementById(chkbx[x]).checked;
+  passwordcom[chkbx[x]] = document.getElementById(chkbx[x]).checked;
+  console.log(x,chkbx[x],passwordcom[chkbx[x]])
   }
   // Collect password length
-    passwordcom.length = parseInt(document.getElementById("passwdlength").value);
-    var Userset = usersetfun();
-    password=passwordgen(Userset);
-    writePassword(password);
-    return;
+  passwordcom["length"] = parseInt(document.getElementById("passwdlength").value);
+  confirmpwd();
+  console.log("after length",passwordcom);
+  var Userset = usersetfun();
+  console.log("after Userset",Userset);
+  password=passwordgen(Userset);
+  writePassword(password);
+  console.log(password)
+  return;
     };
 
+// Run Code - by clicking btn Generate Password with id=generate     
+submitBtn.addEventListener("click",function(e1){
+  e1.preventDefault();
+  e1.stopPropagation();
+  passwdcomp();});
 
-  function generatepwd() {
-  // Main function enabled by Generate Password button => Reveal form, hide Generate btn
-    revealhideForm(1);
-    clearinputs();
-    return;
-      };
-    
-// Run Code - by clicking btn with id=generate     
-var resetBtn = document.getElementById("reset") ;
-var submitBtn = document.getElementById("charbut") ;
-var generateBtn = document.getElementById("generate");
-generateBtn.addEventListener("click",generatepwd);
+// Clears inputs on form
 resetBtn.addEventListener("click",clearinputs);
-submitBtn.addEventListener("click",passwdcomp);
+
+// Reveals form and covers Generate Btn
+generateBtn.addEventListener("click",function(e){
+  e.preventDefault();
+  e.stopPropagation();
+  revealhideForm(1);});

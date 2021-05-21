@@ -75,7 +75,7 @@ header {
 }
 
 #infoarea{
-    display:none;
+    display:flex;
     flex-direction: column;
 }  
 .chckboxarea{
