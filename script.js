@@ -1,5 +1,8 @@
 // Globals and helper functions
 // Four sets of characters for password
+var good = true;
+var goodcomp = true;
+var tgood = false;
 var Lowcase = "qwertyuiopasdfghjklzxcvbnm";
 var Uppcase=Lowcase.toUpperCase();
 var Numerics="0123456789";
@@ -22,14 +25,14 @@ var passwordcom = {
   number: false,
   spchar: false,
   length: 8,
-  good: true,
+  good: -1,
   errorc: "",
 };
 
 function pwcomp_errorchk(){
   // Checks composition of password makesure at least one box is checked
   var compass = "";
-  var len =0;
+  var len = 0;
   var confmsg = " ";
       for (var x=0; x < chkbx.length; x++){
         if(document.getElementById(chkbx[x]).checked){
@@ -38,37 +41,40 @@ function pwcomp_errorchk(){
         };
       };
       
-  if(len<1)
+  if(len==0)
   { 
     console.log("errorchk len ", len)
     compass = "COMPOSITION ERROR: Need to have at least one category checked"
     console.log("errochk aft", passwordcom)
-    passwordcom.good=false;
+    goodcomp= false;
   }
   else{
     compass = " You have selected password composition of: "+ confmsg;
     console.log("compass ", compass);
-    passwordcom.good=true;
+    goodcomp=true;
   }
   return(compass);
 };
 
 function pwlength_errorchk(){
   // Error checks password length.
-  var passx = "";
 
-   if(passwordcom.length>128 || passwordcom.length<8 || isNaN(passwordcom.length))
+  var passx = "";
+  console.log("length",passwordcom.length)
+  console.log(passwordcom.length<129 && passwordcom.length>7 && !isNaN(passwordcom.length))
+   if(passwordcom.length<129 && passwordcom.length>7 && !isNaN(passwordcom.length))
   { 
-    passx="LENGTH ERROR : Password length needs to be between 8 and 128"
-    // clearinputs();
-    errorcode=false;
-    console.log("errochk aft", passwordcom)
-    passwordcom.good=false;
+    good = true;
+    passx="You have a pass word length of " + passwordcom.length +";";
+    
   }
   else{
-    passx="You have a pass word length of " + passwordcom.length +";";
-    passwordcom.good=true;
+    passx="LENGTH ERROR : Password length needs to be between 8 and 128";
+    // clearinputs();
+    good = -1;
+    console.log("errochk aft", good)
   }
+  console.log("length check", good)
   return(passx);
 };
 
@@ -129,22 +135,35 @@ function writeMessage(textval){
 function writePassword() {
   // Write password to textbox, hide Form, bring back Gen btn
   // revealhideForm(0);
-  if(passwordcom.good){
+  if(good){
     passwordText.value = password;
   }
  
   return;
 };
+function andd(x,y){
+  if(x==true && y==true){
+    return(true)
+  }
+  else{ return(false)}
+};
 
 function confirmpwd(){
   // Confirms userinputs as valid, updates password.good
   var resultmsg ="";
-  if(passwordcom.good){
-    resultmsg= "Password Result Above; " + pwlength_errorchk() + ";  "+ pwcomp_errorchk() +"; Press Reset to Generate New Password";
+  var lengthmsg = pwlength_errorchk();
+  console.log("146", good, goodcomp);
+  var compositionmsg = pwcomp_errorchk();
+  tgood= andd(good,goodcomp);
+  console.log("148", good, goodcomp);
+ 
+
+  if(tgood){
+    resultmsg= "Password Result Above; " + lengthmsg + ";  "+ compositionmsg  +"; Press Reset to Generate New Password";
  
      }
   else{
-    resultmsg= "Invalid Inputs: " + pwlength_errorchk() + ";  "+ pwcomp_errorchk();
+    resultmsg= "Invalid Inputs: " + lengthmsg + ";  "+ compositionmsg;
   }
   
   writeMessage(resultmsg);
@@ -162,7 +181,8 @@ for (var x=0; x<chkbx.length;x++){
   // Collect password length
   passwordcom["length"] = parseInt(document.getElementById("passwdlength").value);
   compans=confirmpwd();
-  if(passwordcom.good){
+  console.log("final one", tgood)
+  if(tgood){
     var Userset = usersetfun();
     console.log("after Userset",Userset);
     password=passwordgen(Userset) ;
