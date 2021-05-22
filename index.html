@@ -23,27 +23,45 @@
             placeholder="Your Secure Password"
             aria-label="Generated Password"
           ></textarea>
+          <section id=messages>
+          <h4 style="font-weight:bold"> Messages</h4>
+          <p
+            id="textmsg"
+            aria-label="Generated Password"
+          ></p>
+        </section>
         </div>
         <section id="infoarea" style="display: none" >
             <h4 style="margin-bottom:0">1) Password Length:</h4>
-            <form class="form-inline" >
+            <form class="form-inline" style="flex-direction: column;">
+              <section id="forminputs" >
                 <label for="passwdlength">Length of password (type in number between 8 and 128):</label>
                 <input type="number" id="passwdlength" min=8 max=128 >
                 <h4 style="margin-bottom:0;margin-top:10px;">2) Password Composition:</h4>
-                <p style="margin:0">(Select between 1 and 4 categories. Must select at least one.)</p>
-                <input type="checkbox" id="lwcase" >
-                <label  for="lwcase">lowercase: abc...z</label>
-                <input type="checkbox" id="upcase" >
-                <label for="upcase">uppercase: ABC...Z</label>
-                <input type="checkbox" id="number" >
-                <label for="number">number: 01...9</label>
-                <input type="checkbox" id="spchar" >
-                <label for="spchar">spchar: #$%...&</label> 
-                <div style ="display:flex">           
-                  <button style="background-color: yellow" id="reset" onclick="clearinputs()">Reset</button>
-                  <label for="reset">Reset Inputs</label>
-                  <button style="background-color: green;color:white;" id="charbut">Submit</button>
-                  <label style="text-decoration: underline; font-weight: bold; "; id="charbut">3) Press Submit when Complete</label>
+                <p style="margin:0">(Check at least one category.)</p>
+                <div>
+                  <input type="checkbox" id="lwcase" >
+                  <label  for="lwcase">lowercase: abc...z</label>
+                </div>
+                <div>
+                  <input type="checkbox" id="upcase" >
+                  <label for="upcase">uppercase: ABC...Z</label>
+                </div>
+                <div>
+                  <input type="checkbox" id="number" >
+                  <label for="number">number: 01...9</label>
+                </div>
+                <div>
+                  <input type="checkbox" id="spchar" >
+                  <label for="spchar">spchar: #$%...&</label>
+                </div>
+              </section> 
+                <div style ="flex-direction: row; justify-content: space-between;">           
+                  <button style="background-color: yellow; margin-right: 5px" id="reset" onclick="clearinputs()">Reset</button>
+                  <label for="reset" style="font-weight:bold">=> Start Over</label>
+
+                  <button style="background-color: green;color:white;margin-left: 30px;" id="charbut">Submit</button>
+                  <label style="text-decoration: underline; font-weight: bold; " id="charbut">3) Submit when Complete</label>
                 </div>
               </form>
             </section>

@@ -11,8 +11,10 @@ var resetBtn = document.querySelector("#reset") ;
 var submitBtn = document.querySelector("#charbut");
 var generateBtn = document.querySelector("#generate");
 var infoarea = document.getElementById("infoarea");
-var genbutton = document.getElementById("generate");
-  
+var messageText = document.querySelector("#textmsg");
+var passwordText = document.querySelector("#password");
+var Instructions = "Create a Password of variable length, composed of case sensitive alphanumeric + special Characters. Instructions (Complete form below): 1) Type in Password length (between 8-128 char) 2) Select Password Composition  3) Click Submit when complete"
+ 
   // password object with five user inputs and one good password checker
 var passwordcom = {
   lwcase: false,
@@ -20,23 +22,54 @@ var passwordcom = {
   number: false,
   spchar: false,
   length: 8,
-  good: false,
+  good: true,
   errorc: "",
 };
 
-function errorchk(){
-  // Error checks password length.
-  var errorcode;
-  if(passwordcom.length>128 || passwordcom.length<8 || isNaN(passwordcom.length))
+function pwcomp_errorchk(){
+  // Checks composition of password makesure at least one box is checked
+  var compass = "";
+  var len =0;
+  var confmsg = " ";
+      for (var x=0; x < chkbx.length; x++){
+        if(document.getElementById(chkbx[x]).checked){
+          confmsg +=  chkbx[x]+ " - " ;
+          len++;
+        };
+      };
+      
+  if(len<1)
   { 
-    errorcode=window.confirm("ERROR : Make sure to type in number between 8 and 128");
-    console.log("errorchk ",passwordcom)
-    clearinputs();
+    console.log("errorchk len ", len)
+    compass = "COMPOSITION ERROR: Need to have at least one category checked"
     console.log("errochk aft", passwordcom)
-  return(errorcode)}
-  else{
-    return(true);
+    passwordcom.good=false;
   }
+  else{
+    compass = " You have selected password composition of: "+ confmsg;
+    console.log("compass ", compass);
+    passwordcom.good=true;
+  }
+  return(compass);
+};
+
+function pwlength_errorchk(){
+  // Error checks password length.
+  var passx = "";
+
+   if(passwordcom.length>128 || passwordcom.length<8 || isNaN(passwordcom.length))
+  { 
+    passx="LENGTH ERROR : Password length needs to be between 8 and 128"
+    // clearinputs();
+    errorcode=false;
+    console.log("errochk aft", passwordcom)
+    passwordcom.good=false;
+  }
+  else{
+    passx="You have a pass word length of " + passwordcom.length +";";
+    passwordcom.good=true;
+  }
+  return(passx);
 };
 
 function clearinputs (){
@@ -70,99 +103,73 @@ function passwordgen(userset){
   return(passwd)
 };
 
-
 function revealhideForm(setform){
   // Function to reveal (setform =1) or hide (x=0) Form - Button is inverse displayed
   console.log("madeit reveal hide" , infoarea);
   if(setform===1){
       console.log("reset form =1");
       infoarea.setAttribute("style","display: flex");
-      writeInstructions();
-      genbutton.setAttribute("style", "display: none");
+      writeMessage(Instructions);
+      generateBtn.setAttribute("style", "display: none");
   }
   else if(setform ===0){
     generateBtn.addEventListener("click", passwdcomp);
     infoarea.setAttribute("style","display: none")
-    genbutton.setAttribute("style", "display:inline-box");
+    generateBtn.setAttribute("style", "display:inline-box");
   };
   return;
 };
 
-function writeInstructions(){
+function writeMessage(textval){
   // Write instructions on how to fill out form
-  var InstructionText = document.querySelector("#password");
-  InstructionText.value = "Instructions (Complete form below) 1) Type in Password length (between 8-128 char) 2) Select Password Composition  3) Click Submit when complete"
-  return;
+  messageText.textContent = textval;
+   return;
 };
 
 function writePassword() {
   // Write password to textbox, hide Form, bring back Gen btn
   // revealhideForm(0);
-  var passwordText = document.querySelector("#password");
-  passwordText.value = password;
+  if(passwordcom.good){
+    passwordText.value = password;
+  }
+ 
   return;
-};
-
-function legalpwd(passwdcomp){
-  if(!errorchk()){
-    passwordcom.good=false;
-    window.alert("Enter a number or password length out of bounds"); 
-    return(false);
-  };
-  if(!passwordcom.lwcase && !passwordcom.upcase && !passwordcom.spchar){
-    passwordcom.good = false;
-    window.alert(" Need to select at least one category for password compostion")
-    return(false);
-  };
-  return(true);
 };
 
 function confirmpwd(){
   // Confirms userinputs as valid, updates password.good
-  if(!legalpwd()){
-    console.log("one"); 
-    window.alert("Non legal password");
-    return(false);  };
-  var passx = false;
-  var compass = false;
-  passx = window.confirm("You have chosen password length of  " +  passwordcom["length"]);
-  console.log("passx ",passx)
-  console.log("confmsg" ,passwordcom)
-  //  Compose message for confirm password composition
-  var confmsg = " ";
-  for (var x=0; x < chkbx.length; x++){
-    if(document.getElementById(chkbx[x]).checked){
-      confmsg +=  chkbx[x]+ " - " ;
-    };
-  };
-  compass = window.confirm("You have selected password composition of: "+ confmsg);
-  console.log("compass ", compass);
-  if(!compass || !passx){
-    passwordcom.good = false;
-    passwordcom.errorc="userpwcomp";
-    console.log("two");
-    return(false);
-  }
+  var resultmsg ="";
+  if(passwordcom.good){
+    resultmsg= "Password Result Above; " + pwlength_errorchk() + ";  "+ pwcomp_errorchk() +"; Press Reset to Generate New Password";
+ 
+     }
   else{
-    console.log("confirmed!")
-    return(true); }; 
+    resultmsg= "Invalid Inputs: " + pwlength_errorchk() + ";  "+ pwcomp_errorchk();
+  }
+  
+  writeMessage(resultmsg);
+  return(resultmsg); 
 };
 
 function passwdcomp(){
-// Main Function : Reveal form, collect inputs, generate password
-  for (var x=0; x<chkbx.length;x++){
+// Main Function : Reveal form, collect inputs, generate password, confirm, print
+// Collect User data from checkboxes and form input
+var compans="";
+for (var x=0; x<chkbx.length;x++){
   passwordcom[chkbx[x]] = document.getElementById(chkbx[x]).checked;
   console.log(x,chkbx[x],passwordcom[chkbx[x]])
   }
   // Collect password length
   passwordcom["length"] = parseInt(document.getElementById("passwdlength").value);
-  confirmpwd();
-  console.log("after length",passwordcom);
-  var Userset = usersetfun();
-  console.log("after Userset",Userset);
-  password=passwordgen(Userset);
-  writePassword(password);
-  console.log(password)
+  compans=confirmpwd();
+  if(passwordcom.good){
+    var Userset = usersetfun();
+    console.log("after Userset",Userset);
+    password=passwordgen(Userset) ;
+    writePassword(password);
+    writeMessage(compans)
+    console.log(password)
+  }
   return;
     };
 
@@ -170,7 +177,7 @@ function passwdcomp(){
 submitBtn.addEventListener("click",function(e1){
   e1.preventDefault();
   e1.stopPropagation();
-  passwdcomp();});
+  passwdcomp(e1);});
 
 // Clears inputs on form
 resetBtn.addEventListener("click",clearinputs);
