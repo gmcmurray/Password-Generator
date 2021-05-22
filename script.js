@@ -190,6 +190,9 @@ for (var x=0; x<chkbx.length;x++){
     writeMessage(compans)
     console.log(password)
   }
+  else{
+   clearinputs();
+  }
   return;
     };
 
