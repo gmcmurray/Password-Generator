@@ -87,6 +87,7 @@ function clearinputs (){
   document.getElementById(chkbx[x]).checked=false;
   }
   document.getElementById("passwdlength").value="";
+  passwordText.value="";
   return;
 };
 
@@ -191,7 +192,9 @@ for (var x=0; x<chkbx.length;x++){
     console.log(password)
   }
   else{
+   writePassword("StartOver");
    clearinputs();
+   
   }
   return;
     };
